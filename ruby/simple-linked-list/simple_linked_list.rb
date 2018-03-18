@@ -3,16 +3,10 @@ module BookKeeping
 end
 
 class SimpleLinkedList
-  attr_accessor :head
+  include Enumerable
 
-  def initialize(data = nil)
-    build_list(data) if data
-  end
-
-  def build_list(data)
-    data.each do |datum|
-      push(Element.new(datum))
-    end
+  def initialize(data = [])
+    build_list(data)
   end
 
   def push(element)
@@ -27,25 +21,44 @@ class SimpleLinkedList
     node
   end
 
-  def to_a
-    node = head
-    [].tap do |arr|
-      while node
-        arr << node.datum
-        node = node.next
-      end
-    end
-  end
-
   def reverse!
     tmp_list = SimpleLinkedList.new
     while node = pop
       tmp_list.push(node)
     end
 
-    self.head = tmp_list.head
+    self.head = tmp_list.first
     self
   end
+
+  def to_a
+    map(&:datum)
+  end
+
+  private
+
+    def head=(node)
+      @head = node
+    end
+
+    def head
+      @head
+    end
+
+    def build_list(data)
+      data.each do |datum|
+        push(Element.new(datum))
+      end
+    end
+
+    def each
+      node = head
+
+      while node
+        yield node
+        node = node.next
+      end
+    end
 end
 
 class Element
