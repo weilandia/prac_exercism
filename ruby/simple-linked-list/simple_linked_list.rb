@@ -21,18 +21,22 @@ class SimpleLinkedList
     node
   end
 
+  def to_a
+    map(&:datum)
+  end
+
   def reverse!
+    self.head = reverse.first
+    self
+  end
+
+  def reverse
     tmp_list = SimpleLinkedList.new
     while node = pop
       tmp_list.push(node)
     end
 
-    self.head = tmp_list.first
-    self
-  end
-
-  def to_a
-    map(&:datum)
+    tmp_list
   end
 
   private
