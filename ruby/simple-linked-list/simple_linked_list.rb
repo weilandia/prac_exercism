@@ -38,11 +38,11 @@ class SimpleLinkedList
   private
 
     def head=(node)
-      @head = node
+      @_head = node
     end
 
     def head
-      @head
+      @_head
     end
 
     def build_list(data)
