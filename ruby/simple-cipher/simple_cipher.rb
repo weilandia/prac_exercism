@@ -3,10 +3,11 @@ class Cipher
 
   LOWER_BOUND = 'a'.ord
   UPPER_BOUND = 'z'.ord
+  VALID_KEY   = /\A[a-z]+\z/
 
   def initialize(key = generate_random_key)
+    raise ArgumentError unless key.match?(VALID_KEY)
     @key = key
-    validate_key
   end
 
   def encode(text)
@@ -45,12 +46,6 @@ class Cipher
         (UPPER_BOUND + 1) - (LOWER_BOUND - shift_ord)
       else
         shift_ord
-      end
-    end
-
-    def validate_key
-      if key =~ /[^a-z]/ || key.empty?
-        raise ArgumentError
       end
     end
 
