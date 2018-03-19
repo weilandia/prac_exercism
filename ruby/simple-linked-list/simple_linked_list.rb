@@ -40,14 +40,7 @@ class SimpleLinkedList
   end
 
   private
-
-    def head=(node)
-      @_head = node
-    end
-
-    def head
-      @_head
-    end
+    attr_accessor :head
 
     def build_list(data)
       data.each do |datum|
@@ -66,18 +59,11 @@ class SimpleLinkedList
 end
 
 class Element
-  attr_reader :datum
+  attr_accessor :next
+  attr_reader   :datum
 
   def initialize(datum, next_datum = nil)
     @datum = datum
     self.next = next_datum
-  end
-
-  def next=(next_datum)
-    @_next = next_datum
-  end
-
-  def next
-    @_next
   end
 end
