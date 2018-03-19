@@ -64,6 +64,6 @@ class Element
 
   def initialize(datum, next_datum = nil)
     @datum = datum
-    self.next = next_datum
+    @next  = next_datum
   end
 end
