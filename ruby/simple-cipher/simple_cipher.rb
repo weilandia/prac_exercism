@@ -23,6 +23,13 @@ class Cipher
       end.join
     end
 
+    def shift_distance(idx, direction)
+      key_idx  = idx % key.length
+      distance = key[key_idx].ord - 'a'.ord
+
+      distance * direction
+    end
+
     def shift_char(ord, distance)
       new_ord = shift_char_ord(ord + distance)
       new_ord.chr("UTF-8")
@@ -36,13 +43,6 @@ class Cipher
       else
         shift_ord
       end
-    end
-
-    def shift_distance(idx, direction)
-      key_idx  = idx % key.length
-      distance = key[key_idx].ord - 'a'.ord
-
-      distance * direction
     end
 
     def validate_key
