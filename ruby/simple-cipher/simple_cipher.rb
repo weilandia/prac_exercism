@@ -1,7 +1,10 @@
 class Cipher
   attr_reader :key
 
-  def initialize(key = 'dddddddddd')
+  LOWER_BOUND = 'a'.ord
+  UPPER_BOUND = 'z'.ord
+
+  def initialize(key = generate_random_key)
     @key = key
     validate_key
   end
@@ -25,7 +28,7 @@ class Cipher
 
     def shift_distance(idx, direction)
       key_idx  = idx % key.length
-      distance = key[key_idx].ord - 'a'.ord
+      distance = key[key_idx].ord - LOWER_BOUND
 
       distance * direction
     end
@@ -36,10 +39,10 @@ class Cipher
     end
 
     def shift_char_ord(shift_ord)
-      if shift_ord > 'z'.ord
-        ('a'.ord - 1) + (shift_ord - 'z'.ord)
-      elsif shift_ord < 'a'.ord
-        ('z'.ord + 1) - ('a'.ord - shift_ord)
+      if shift_ord > UPPER_BOUND
+        (LOWER_BOUND - 1) + (shift_ord - UPPER_BOUND)
+      elsif shift_ord < LOWER_BOUND
+        (UPPER_BOUND + 1) - (LOWER_BOUND - shift_ord)
       else
         shift_ord
       end
@@ -48,6 +51,14 @@ class Cipher
     def validate_key
       if key =~ /[^a-z]/ || key.empty?
         raise ArgumentError
+      end
+    end
+
+    def generate_random_key
+      "".tap do |key|
+        100.times do
+          key << rand(LOWER_BOUND..UPPER_BOUND).chr("UTF-8")
+        end
       end
     end
 end
